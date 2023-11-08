@@ -8,12 +8,15 @@ public class SwiftUIDebugManager: ObservableObject {
 
     public static let shared = SwiftUIDebugManager()
 
+    public var showRandomBackground: Bool = false
     public var isDebugging: Bool = false
     public var showIds: Bool = false
     public var showViewNames: Bool = false
 
-    internal func reset() {
-        self.objectWillChange.send()
+    public func update() {
+        Task { @MainActor in
+            self.objectWillChange.send()
+        }
     }
 }
 

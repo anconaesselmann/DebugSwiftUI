@@ -27,18 +27,20 @@ public struct DebugView: View {
     }
 
     public var body: some View {
-        Text(Self.description(for: id))
-            .padding(4)
-            .background(.blue.opacity(0.2))
-            .cornerRadius(5)
-            .onTapGesture {
-                printStats()
-            }
-            .onLongPressGesture {
-                DebugStats.shared.reset()
-                SwiftUIDebugManager.shared.reset()
-                print("\n\nReset debug counts.")
-            }
+        if SwiftUIDebugManager.shared.isDebugging {
+            Text(Self.description(for: id))
+                .padding(4)
+                .background(.blue.opacity(0.2))
+                .cornerRadius(5)
+                .onTapGesture {
+                    printStats()
+                }
+                .onLongPressGesture {
+                    DebugStats.shared.reset()
+                    SwiftUIDebugManager.shared.update()
+                    print("\n\nReset debug counts.")
+                }
+        }
     }
 
     private func printStats() {
